@@ -49,22 +49,21 @@
         <a-entity camera></a-entity>
     </a-scene>
 
-<script>
-    const models = [
-        { id: 'bunny', name: 'bunny' }
-    ];
-
-    window.addEventListener('load', () => {
-        const modelEntity = document.getElementById('model');
-
-        function loadModel(index) {
-            const model = models[index];
-            if (modelEntity) {
-                modelEntity.setAttribute('gltf-model', `#${model.id}`);
-            }
-        }
-        loadModel(0); // Loads the first model automatically
+window.addEventListener('load', () => {
+    const modelEntity = document.getElementById('model');
+    const assetItem = document.getElementById('bunny');
+    
+    console.log('Model entity:', modelEntity);
+    console.log('Asset item:', assetItem);
+    console.log('Asset src:', assetItem?.getAttribute('src'));
+    
+    modelEntity?.addEventListener('model-loaded', () => {
+        console.log('Model loaded successfully!');
     });
-</script>
+    
+    modelEntity?.addEventListener('error', (err) => {
+        console.error('Model loading error:', err);
+    });
+});
 </body>
 </html>
