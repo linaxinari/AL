@@ -49,21 +49,6 @@
         <a-entity camera></a-entity>
     </a-scene>
 
-window.addEventListener('load', () => {
-    const modelEntity = document.getElementById('model');
-    const assetItem = document.getElementById('bunny');
-    
-    console.log('Model entity:', modelEntity);
-    console.log('Asset item:', assetItem);
-    console.log('Asset src:', assetItem?.getAttribute('src'));
-    
-    modelEntity?.addEventListener('model-loaded', () => {
-        console.log('Model loaded successfully!');
-    });
-    
-    modelEntity?.addEventListener('error', (err) => {
-        console.error('Model loading error:', err);
-    });
-});
+
 </body>
 </html>
