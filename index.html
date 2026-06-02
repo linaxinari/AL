@@ -3,58 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes, minimum-scale=1.0, maximum-scale=2.0">
-    <title>NYC AR</title>
+    <title>AR Test</title>
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
-    <style>
-        body { margin: 0; overflow: hidden; }
-    </style>
 </head>
-<body>
-  <a-scene
-    embedded
-    arjs="sourceType: webcam; debugUIEnabled: false;"
-    vr-mode-ui="enabled: false"
-    renderer="logarithmicDepthBuffer: true;"
-    loading-screen="enabled: false">
+<body style="margin: 0; overflow: hidden;">
+    <a-scene
+        embedded
+        arjs="sourceType: webcam; debugUIEnabled: true;"
+        vr-mode-ui="enabled: false">
 
-        <a-assets timeout="10000">
-            <a-asset-item
-                id="bunny"
-                src="https://raw.githubusercontent.com/linaxinari/AL/main/bunny.glb"
-                crossorigin="anonymous">
-            </a-asset-item>
-        </a-assets>
-
-        <a-marker
-            <a-marker preset="hiro">
-    <a-entity
-        id="model"
-        position="0 0.5 0"
-        rotation="-90 0 0"
-        scale="0.5 0.5 0.5"
-        gltf-model="#bunny">
-    </a-entity>
-</a-marker>
+        <a-marker preset="hiro">
+            <a-box position="0 0.5 0" color="red"></a-box>
+        </a-marker>
 
         <a-entity camera></a-entity>
     </a-scene>
-
-    <script>
-        // Wait for assets to load before doing anything
-        const assets = document.querySelector('a-assets');
-        assets.addEventListener('loaded', () => {
-            console.log('Assets loaded successfully');
-        });
-
-        // Debug: log if model loads or errors
-        const model = document.getElementById('model');
-        model.addEventListener('model-loaded', () => {
-            console.log('GLB model loaded!');
-        });
-        model.addEventListener('model-error', (e) => {
-            console.error('Model failed to load:', e);
-        });
-    </script>
 </body>
 </html>
