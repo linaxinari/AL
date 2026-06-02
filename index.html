@@ -4,67 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=yes, minimum-scale=1.0, maximum-scale=2.0">
     <title>NYC AR</title>
-
-    <!-- Corrected: Removed markdown backticks and kept scripts inside <head> -->
     <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js/aframe/build/aframe-ar.min.js"></script>
-
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: Arial, sans-serif;
-        }
+        body { margin: 0; overflow: hidden; }
     </style>
 </head>
-
 <body>
-
     <a-scene
         embedded
-        arjs="sourceType: webcam; debugUIEnabled: false;"
-        vr-mode-ui="enabled: false">
+        arjs="sourceType: webcam; debugUIEnabled: false; detectionMode: mono_and_matrix; matrixCodeType: 3x3;"
+        vr-mode-ui="enabled: false"
+        renderer="logarithmicDepthBuffer: true;"
+        loading-screen="enabled: false">
 
-        <a-assets>
+        <a-assets timeout="10000">
             <a-asset-item
                 id="bunny"
-                src="https://raw.githubusercontent.com/linaxinari/AL/main/bunny.glb">
+                src="https://raw.githubusercontent.com/linaxinari/AL/main/bunny.glb"
+                crossorigin="anonymous">
             </a-asset-item>
         </a-assets>
 
-<a-marker
+        <a-marker
             type="pattern"
-            url="https://raw.githubusercontent.com/linaxinari/AL/main/pattern-cat.patt">
-        
+            url="https://raw.githubusercontent.com/linaxinari/AL/main/pattern-cat.patt"
+            smooth="true"
+            smoothCount="10"
+            smoothTolerance="0.01"
+            smoothThreshold="5">
+
             <a-entity
                 id="model"
-                position="0 0.5 0"
-                rotation="0 0 0"
-                scale="2 2 2"
+                position="0 0 0"
+                rotation="-90 0 0"
+                scale="0.5 0.5 0.5"
                 gltf-model="#bunny">
             </a-entity>
-
         </a-marker>
 
         <a-entity camera></a-entity>
     </a-scene>
-<script>
-    const models = [
-        { id: 'bunny', name: 'Bunny' }
-    ];
 
-    window.addEventListener('load', () => {
-        const modelEntity = document.getElementById('model');
+    <script>
+        // Wait for assets to load before doing anything
+        const assets = document.querySelector('a-assets');
+        assets.addEventListener('loaded', () => {
+            console.log('Assets loaded successfully');
+        });
 
-        function loadModel(index) {
-            const model = models[index];
-            if (modelEntity) {
-                modelEntity.setAttribute('gltf-model', `#${model.id}`);
-            }
-        }
-        loadModel(0); // Loads the first model automatically
-    });
-</script>
-
+        // Debug: log if model loads or errors
+        const model = document.getElementById('model');
+        model.addEventListener('model-loaded', () => {
+            console.log('GLB model loaded!');
+        });
+        model.addEventListener('model-error', (e) => {
+            console.error('Model failed to load:', e);
+        });
+    </script>
 </body>
 </html>
