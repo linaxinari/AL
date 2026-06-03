@@ -28,15 +28,58 @@
 
         <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
 
-        <a-entity mindar-image-target="targetIndex: 0">
-            <a-entity
-                gltf-model="#bunny"
-                position="0 0 0"
-                rotation="0 0 0"
-                scale="0.5 0.5 0.5">
+        <a-entity mindar-image-target="targetIndex: 0" id="target">
+
+            <!-- Orbit container that rotates in a circle -->
+            <a-entity id="orbit" rotation="0 0 0"
+                animation="property: rotation; to: 0 360 0; loop: true; dur: 6000; easing: linear;">
+
+                <!-- Bunny offset from center so it orbits -->
+                <a-entity
+                    id="bunny-entity"
+                    gltf-model="#bunny"
+                    position="0.3 0 0"
+                    scale="0 0 0"
+                    rotation="0 0 0">
+                </a-entity>
             </a-entity>
+
         </a-entity>
 
     </a-scene>
+
+    <script>
+        AFRAME.registerComponent('fade-in-on-target', {
+            init: function () {
+                const target = document.querySelector('#target');
+                const bunny = document.querySelector('#bunny-entity');
+
+                target.addEventListener('targetFound', () => {
+                    // Fade in by scaling up
+                    bunny.setAttribute('animation', {
+                        property: 'scale',
+                        from: '0 0 0',
+                        to: '0.5 0.5 0.5',
+                        dur: 1000,
+                        easing: 'easeOutElastic'
+                    });
+                });
+
+                target.addEventListener('targetLost', () => {
+                    // Scale down when marker lost
+                    bunny.setAttribute('animation', {
+                        property: 'scale',
+                        from: '0.5 0.5 0.5',
+                        to: '0 0 0',
+                        dur: 300,
+                        easing: 'easeInQuad'
+                    });
+                });
+            }
+        });
+    </script>
+
+    <a-entity fade-in-on-target></a-entity>
+
 </body>
 </html>
